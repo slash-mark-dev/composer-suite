@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+if (PHP_VERSION_ID < 80100) {
+    fwrite(STDERR, "sm-composer needs PHP 8.1 or newer (you have " . PHP_VERSION . ")\n");
+    exit(3);
+}
+
+// Works when installed globally, as a project dependency, or straight from a git checkout.
+$autoloaders = [
+    $GLOBALS['_composer_autoload_path'] ?? null,
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+];
+$loaded = false;
+foreach ($autoloaders as $file) {
+    if ($file && is_file($file)) {
+        require $file;
+        $loaded = true;
+        break;
+    }
+}
+if (!$loaded || !class_exists(\SlashMark\ComposerSuite\Application::class)) {
+    spl_autoload_register(static function (string $class): void {
+        $prefix = 'SlashMark\\ComposerSuite\\';
+        if (str_starts_with($class, $prefix)) {
+            $file = __DIR__ . '/../src/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+            if (is_file($file)) {
+                require $file;
+            }
+        }
+    });
+}
+
+exit((new \SlashMark\ComposerSuite\Application())->run($argv));

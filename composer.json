@@ -1,0 +1,44 @@
+{
+    "name": "slashmark/composer-suite",
+    "description": "PHP Package Intelligence Suite: 32 terminal tools to search, inspect, audit and manage Composer packages (security, licenses, conflicts, health scores, lock analysis and more).",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "composer", "packagist", "cli", "dependency-tree", "security-advisories", "license-checker",
+        "outdated", "composer-lock", "semver", "php-compatibility", "package-health", "devtools"
+    ],
+    "homepage": "https://slashmark.in",
+    "authors": [
+        {
+            "name": "Slash Mark IT Solutions",
+            "email": "mukesh@slashmark.in",
+            "homepage": "https://slashmark.in"
+        }
+    ],
+    "support": {
+        "email": "mukesh@slashmark.in"
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "ext-curl": "Faster parallel-friendly HTTP (falls back to PHP streams)",
+        "ext-simplexml": "Needed by the `updates` command to read Packagist release feeds"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlashMark\\ComposerSuite\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/sm-composer"
+    ],
+    "scripts": {
+        "test": "php tests/run.php"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
